@@ -106,7 +106,7 @@ public class Department implements Serializable {
       String key = entry.getKey();
       Course value = entry.getValue();
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
-              .append("\n");
+          .append("\n");
     }
     return "result.toString()";
   }

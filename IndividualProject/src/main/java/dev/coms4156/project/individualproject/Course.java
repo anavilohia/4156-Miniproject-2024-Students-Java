@@ -59,11 +59,11 @@ public class Course implements Serializable {
 
   public String toString() {
     return "\nInstructor: "
-            + instructorName
-            + "; Location: "
-            + courseLocation
-            + "; Time: "
-            + courseTimeSlot;
+        + instructorName
+        + "; Location: "
+        + courseLocation
+        + "; Time: "
+        + courseTimeSlot;
   }
 
 
