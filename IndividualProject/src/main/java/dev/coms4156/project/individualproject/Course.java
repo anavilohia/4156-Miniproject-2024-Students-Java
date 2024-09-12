@@ -19,11 +19,11 @@ public class Course implements Serializable {
    * @param capacity       The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
-    this.courseLocation = courseLocation;
-    this.instructorName = instructorName;
-    this.courseTimeSlot = timeSlot;
-    this.enrollmentCapacity = capacity;
-    this.enrolledStudentCount = 500;
+    this.courseLocation = (courseLocation != null) ? courseLocation : "Unknown";
+    this.instructorName = (instructorName != null) ? instructorName : "Unknown";
+    this.courseTimeSlot = (timeSlot != null) ? timeSlot : "Unknown";
+    this.enrollmentCapacity = Math.max(capacity, 0);
+    this.enrolledStudentCount = 0;
   }
 
   /**
@@ -32,8 +32,11 @@ public class Course implements Serializable {
    * @return true if the student is successfully enrolled, false otherwise.
    */
   public boolean enrollStudent() {
+    if (isCourseFull()) {
+      return false;
+    }
     enrolledStudentCount++;
-    return false;
+    return true;
   }
 
   /**
@@ -42,7 +45,10 @@ public class Course implements Serializable {
    * @return true if the student is successfully dropped, false otherwise.
    */
   public boolean dropStudent() {
-    enrolledStudentCount--;
+    if (enrolledStudentCount > 0) {
+      enrolledStudentCount--;
+      return true;
+    }
     return false;
   }
 
@@ -52,7 +58,7 @@ public class Course implements Serializable {
    * @return A {@code String} courseLocation.
    */
   public String getCourseLocation() {
-    return this.instructorName;
+    return this.courseLocation;
   }
 
   /**
@@ -61,7 +67,7 @@ public class Course implements Serializable {
    * @return A {@code String} instructorName.
    */
   public String getInstructorName() {
-    return this.courseLocation;
+    return this.instructorName;
   }
 
   /**
@@ -71,6 +77,15 @@ public class Course implements Serializable {
    */
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
+  }
+
+  /**
+   * Gets the enrolled student count for the course.
+   *
+   * @return A {@code int} enrolledStudentCount.
+   */
+  public int getEnrolledStudentCount() {
+    return this.enrolledStudentCount;
   }
 
   /**
@@ -95,7 +110,7 @@ public class Course implements Serializable {
    * @param newInstructorName the new name to be set for the instructorName
    */
   public void reassignInstructor(String newInstructorName) {
-    this.instructorName = newInstructorName;
+    this.instructorName = (newInstructorName != null) ? newInstructorName : "Unknown";
   }
 
   /**
@@ -104,7 +119,7 @@ public class Course implements Serializable {
    * @param newLocation the new location to be set for the courseLocation
    */
   public void reassignLocation(String newLocation) {
-    this.courseLocation = newLocation;
+    this.courseLocation = (newLocation != null) ? newLocation : "Unknown";
   }
 
   /**
@@ -113,7 +128,7 @@ public class Course implements Serializable {
    * @param newTime the new time slot to be set for the courseTimeSlot
    */
   public void reassignTime(String newTime) {
-    this.courseTimeSlot = newTime;
+    this.courseTimeSlot = (newTime != null) ? newTime : "Unknown";
   }
 
   /**
@@ -122,16 +137,24 @@ public class Course implements Serializable {
    * @param count the count to be set for the enrolledStudentCount
    */
   public void setEnrolledStudentCount(int count) {
+    if (count > enrollmentCapacity) {
+      throw new IllegalArgumentException(
+          "Enrolled student count cannot exceed the course enrollment capacity of "
+              + enrollmentCapacity);
+    }
+    if (count < 0) {
+      throw new IllegalArgumentException("Enrolled student count cannot be negative");
+    }
     this.enrolledStudentCount = count;
   }
 
   /**
    * Check's if the course enrollment is full.
    *
-   * @return true if enrollment capacity is greater than enrolled student count.
+   * @return true if enrollment capacity is equal to enrolled student count.
    */
   public boolean isCourseFull() {
-    return enrollmentCapacity > enrolledStudentCount;
+    return enrollmentCapacity == enrolledStudentCount;
   }
 
   // const and variables
