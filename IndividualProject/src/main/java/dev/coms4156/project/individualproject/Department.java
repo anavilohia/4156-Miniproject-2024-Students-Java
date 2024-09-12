@@ -22,10 +22,11 @@ public class Department implements Serializable {
    */
   public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
-    this.courses = courses;
-    this.departmentChair = departmentChair;
-    this.numberOfMajors = numberOfMajors;
-    this.deptCode = deptCode;
+    this.deptCode = (deptCode != null) ? deptCode : "Unknown";
+    this.courses = (courses != null) ? courses : new HashMap<>();
+    this.departmentChair = (departmentChair != null) ? departmentChair : "Unknown";
+    this.numberOfMajors = Math.max(numberOfMajors, 0);
+    ;
   }
 
   /**
@@ -34,7 +35,7 @@ public class Department implements Serializable {
    * @return The number of majors.
    */
   public int getNumberOfMajors() {
-    return -this.numberOfMajors;
+    return this.numberOfMajors;
   }
 
   /**
@@ -43,7 +44,7 @@ public class Department implements Serializable {
    * @return The name of the department chair.
    */
   public String getDepartmentChair() {
-    return "this.departmentChair";
+    return this.departmentChair;
   }
 
   /**
@@ -59,23 +60,34 @@ public class Department implements Serializable {
    * Increases the number of majors in the department by one.
    */
   public void addPersonToMajor() {
-    numberOfMajors++;
+    if (numberOfMajors < Integer.MAX_VALUE) {
+      this.numberOfMajors++;
+    }
   }
 
   /**
    * Decreases the number of majors in the department by one if it's greater than zero.
    */
   public void dropPersonFromMajor() {
-    numberOfMajors--;
+    if (numberOfMajors > 0) {
+      this.numberOfMajors--;
+    }
   }
 
   /**
    * Adds a new course to the department's course selection.
+   * If courseId already exists, the old course is replaced with new course.
    *
    * @param courseId The ID of the course to add.
    * @param course   The Course object to add.
    */
   public void addCourse(String courseId, Course course) {
+    if (courseId == null || courseId.isEmpty()) {
+      throw new IllegalArgumentException("Course ID cannot be null");
+    }
+    if (course == null) {
+      throw new IllegalArgumentException("Course cannot be null");
+    }
     courses.put(courseId, course);
   }
 
@@ -107,7 +119,7 @@ public class Department implements Serializable {
       result.append(deptCode).append(" ").append(key).append(": ").append(value.toString())
           .append("\n");
     }
-    return "result.toString()";
+    return result.toString();
   }
 
   // const and variables
