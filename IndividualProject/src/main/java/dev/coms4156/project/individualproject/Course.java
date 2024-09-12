@@ -157,6 +157,22 @@ public class Course implements Serializable {
     return enrollmentCapacity == enrolledStudentCount;
   }
 
+  /**
+   *
+   * @param other Course to be compared to this Course
+   * @return true if all internal params have same value
+   */
+  public boolean equals(Course other) {
+    if (this == other) {
+      return true;
+    }
+    return this.instructorName.equals(other.instructorName)
+        && this.courseLocation.equals(other.courseLocation)
+        && this.courseTimeSlot.equals(other.courseTimeSlot)
+        && this.enrollmentCapacity == other.enrollmentCapacity
+        && this.enrolledStudentCount == other.enrolledStudentCount;
+  }
+
   // const and variables
   @Serial
   private static final long serialVersionUID = 123456L;

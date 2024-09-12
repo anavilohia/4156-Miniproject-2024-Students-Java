@@ -212,23 +212,29 @@ public class CourseUnitTests {
    */
   @Test
   public void setEnrolledStudentCountTest() {
+    Course tempCourse = new Course(
+        "Griffin Newbold",
+        "417 IAB",
+        "11:40-12:55",
+        250);
+
     int expectedResult = 39;
-    testCourse.setEnrolledStudentCount(39);
-    assertEquals(expectedResult, testCourse.getEnrolledStudentCount());
+    tempCourse.setEnrolledStudentCount(39);
+    assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
 
     Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testCourse.setEnrolledStudentCount(502);
+      tempCourse.setEnrolledStudentCount(502);
     });
     assertEquals(
         "Enrolled student count cannot exceed the course enrollment capacity of 250",
         exception.getMessage());
-    assertEquals(expectedResult, testCourse.getEnrolledStudentCount());
+    assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
 
     exception = assertThrows(IllegalArgumentException.class, () -> {
-      testCourse.setEnrolledStudentCount(-30);
+      tempCourse.setEnrolledStudentCount(-30);
     });
     assertEquals("Enrolled student count cannot be negative", exception.getMessage());
-    assertEquals(expectedResult, testCourse.getEnrolledStudentCount());
+    assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
   }
 
   /**

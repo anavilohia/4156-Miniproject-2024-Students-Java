@@ -2,7 +2,7 @@ what the issue was, where it was, and if it has a proper name identified by a st
 
 Course class
 
-- constructor and reassign methods did not handle null String values
+- constructor and reassign methods did not handle null String values or negative int values
 - constructor initialized enrolledStudentCount to 500 instead of 0
 - enrollStudent() did not check capacity
 - enrollStudent() always returned false
@@ -14,3 +14,15 @@ Course class
 - getCourseLocation() returned instructorName
 - getInstructorName() returned courseLocation
 - no getter method for enrolledStudentCount
+
+Department class
+
+- constructor did not handle null String values or negative int values
+- getNumberOfMajors() returned an incorrect value due to -ve sign
+- getDepartmentChair() returned string "this.departmentChair" rather than actual value
+- addPersonToMajor() did not account for INTEGER.MAX_VALUE
+- dropPersonFromMajor did not check existing count is above zero
+- addCourse() does not account for null parameters
+- addCourse() comments do not specify how duplicate courseId should be handled
+- toString() does not return StringBuilder result correctly
+-
