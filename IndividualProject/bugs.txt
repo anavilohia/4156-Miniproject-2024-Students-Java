@@ -1,0 +1,16 @@
+what the issue was, where it was, and if it has a proper name identified by a static analyzer
+
+Course class
+
+- constructor and reassign methods did not handle null String values
+- constructor initialized enrolledStudentCount to 500 instead of 0
+- enrollStudent() did not check capacity
+- enrollStudent() always returned false
+- isCourseFull() check was incorrect
+- setEnrolledStudentCount() did not throw exception for value above enrollmentCapacity
+- setEnrolledStudentCount() did not check for negative values
+- dropStudent() always returned false
+- dropStudent() did not check if at least one student is enrolled
+- getCourseLocation() returned instructorName
+- getInstructorName() returned courseLocation
+- no getter method for enrolledStudentCount
