@@ -158,9 +158,10 @@ public class Course implements Serializable {
   }
 
   /**
+   *Check's if other Course is equal to this Course.
    *
-   * @param other Course to be compared to this Course
-   * @return true if all internal params have same value
+   * @param other Course to be compared to this Course.
+   * @return true if all internal params have same value.
    */
   public boolean equals(Course other) {
     if (this == other) {

@@ -1,17 +1,16 @@
 package dev.coms4156.project.individualproject;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.HashMap;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Unit tests to be used for Department class.
@@ -201,9 +200,9 @@ public class DepartmentUnitTests {
   @Test
   public void toStringTest() {
     String expectedResult =
-        "COMS 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n" +
-            "COMS 3157: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n" +
-            "COMS 3134: \nInstructor: Unknown; Location: ; Time: Unknown\n";
+        "COMS 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
+            + "COMS 3157: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n"
+            + "COMS 3134: \nInstructor: Unknown; Location: ; Time: Unknown\n";
     assertEquals(expectedResult, testDept.toString());
 
     expectedResult = "";
@@ -211,9 +210,9 @@ public class DepartmentUnitTests {
 
     testDept2 = new Department("0.\\n3/", coursesMap, "", -3);
     expectedResult =
-        "0.\\n3/ 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n" +
-            "0.\\n3/ 3157: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n" +
-            "0.\\n3/ 3134: \nInstructor: Unknown; Location: ; Time: Unknown\n";
+        "0.\\n3/ 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
+            + "0.\\n3/ 3157: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n"
+            + "0.\\n3/ 3134: \nInstructor: Unknown; Location: ; Time: Unknown\n";
     assertEquals(expectedResult, testDept2.toString());
   }
 
