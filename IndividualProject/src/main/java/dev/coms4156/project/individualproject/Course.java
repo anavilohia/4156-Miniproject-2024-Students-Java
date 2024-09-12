@@ -3,6 +3,11 @@ package dev.coms4156.project.individualproject;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * Represents a course within an educational institution.
+ * This class stores information about the course, including its instructor's name,
+ * location, time slot, and capacity.
+ */
 public class Course implements Serializable {
 
   /**
@@ -41,22 +46,40 @@ public class Course implements Serializable {
     return false;
   }
 
-
+  /**
+   * Gets the location of the course.
+   *
+   * @return A {@code String} courseLocation.
+   */
   public String getCourseLocation() {
     return this.instructorName;
   }
 
-
+  /**
+   * Gets the instructor's name for the course.
+   *
+   * @return A {@code String} instructorName.
+   */
   public String getInstructorName() {
     return this.courseLocation;
   }
 
-
+  /**
+   * Gets the time slot for the course.
+   *
+   * @return A {@code String} timeSlot.
+   */
   public String getCourseTimeSlot() {
     return this.courseTimeSlot;
   }
 
-
+  /**
+   * Forms a string containing course information, including its instructor's name,
+   * * location, and time slot.
+   *
+   * @return A {@code String} of the format
+   *     "Instructor: instructorName; Location: courseLocation; Time: courseTimeSlot"
+   */
   public String toString() {
     return "\nInstructor: "
         + instructorName
@@ -66,31 +89,52 @@ public class Course implements Serializable {
         + courseTimeSlot;
   }
 
-
+  /**
+   * Reassigns the course instructor.
+   *
+   * @param newInstructorName the new name to be set for the instructorName
+   */
   public void reassignInstructor(String newInstructorName) {
     this.instructorName = newInstructorName;
   }
 
-
+  /**
+   * Reassigns the course location.
+   *
+   * @param newLocation the new location to be set for the courseLocation
+   */
   public void reassignLocation(String newLocation) {
     this.courseLocation = newLocation;
   }
 
-
+  /**
+   * Reassigns the course time slot.
+   *
+   * @param newTime the new time slot to be set for the courseTimeSlot
+   */
   public void reassignTime(String newTime) {
     this.courseTimeSlot = newTime;
   }
 
-
+  /**
+   * Sets the course enrollment count.
+   *
+   * @param count the count to be set for the enrolledStudentCount
+   */
   public void setEnrolledStudentCount(int count) {
     this.enrolledStudentCount = count;
   }
 
-
+  /**
+   * Check's if the course enrollment is full.
+   *
+   * @return true if enrollment capacity is greater than enrolled student count.
+   */
   public boolean isCourseFull() {
     return enrollmentCapacity > enrolledStudentCount;
   }
 
+  // const and variables
   @Serial
   private static final long serialVersionUID = 123456L;
   private final int enrollmentCapacity;

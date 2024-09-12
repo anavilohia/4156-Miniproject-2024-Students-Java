@@ -7,17 +7,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-
+/**
+ * Unit tests to be used for Course class.
+ */
 @SpringBootTest
 @ContextConfiguration
 public class CourseUnitTests {
 
+  /**
+   * Set up to be run before all tests.
+   */
   @BeforeAll
   public static void setupCourseForTesting() {
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
   }
 
-
+  /**
+   * Test for Course class toString method.
+   */
   @Test
   public void toStringTest() {
     String expectedResult = "\nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55";

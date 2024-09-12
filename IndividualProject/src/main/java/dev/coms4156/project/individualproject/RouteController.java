@@ -374,7 +374,15 @@ public class RouteController {
     }
   }
 
-
+  /**
+   * Attempts to set enrollment count for the specified course.
+   *
+   * @param deptCode   A {@code String} representing the department.
+   * @param courseCode A {@code int} representing the course within the department.
+   * @param count      A {@code int} representing the enrollment count to be set.
+   * @return a ResponseEntity with a success message if the operation is
+   *     successful, or an error message if the course is not found
+   */
   @PatchMapping(value = "/setEnrollmentCount", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> setEnrollmentCount(@RequestParam(value = "deptCode") String deptCode,
                                               @RequestParam(value = "courseCode") int courseCode,
@@ -473,7 +481,18 @@ public class RouteController {
     }
   }
 
-
+  /**
+   * Endpoint for changing the location of a course.
+   * This method handles PATCH requests to change the location of a course identified by
+   * department code and course code.If the course exists, its location is updated to the
+   * provided location.
+   *
+   * @param deptCode   the code of the department containing the course
+   * @param courseCode the code of the course to change the time for
+   * @param location   the new location for the course
+   * @return a ResponseEntity with a success message if the operation is
+   *     successful, or an error message if the course is not found
+   */
   @PatchMapping(value = "/changeCourseLocation", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> changeCourseLocation(@RequestParam(value = "deptCode") String deptCode,
                                                 @RequestParam(value = "courseCode") int courseCode,
@@ -499,10 +518,14 @@ public class RouteController {
     }
   }
 
+  /**
+   * Handles exceptions and prints the error.
+   *
+   * @param e    the exception to be handles and printed as string
+   * @return a ResponseEntity with a success message
+   */
   private ResponseEntity<?> handleException(Exception e) {
     System.out.println(e.toString());
     return new ResponseEntity<>("An Error has occurred", HttpStatus.OK);
   }
-
-
 }
