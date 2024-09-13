@@ -7,7 +7,7 @@ Course class
 - enrollStudent() did not check capacity
 - enrollStudent() always returned false
 - isCourseFull() check was incorrect
-- setEnrolledStudentCount() did not throw exception for value above enrollmentCapacity
+- setEnrolledStudentCount() did not check capacity for value above enrollmentCapacity
 - setEnrolledStudentCount() did not check for negative values
 - dropStudent() always returned false
 - dropStudent() did not check if at least one student is enrolled
@@ -25,4 +25,8 @@ Department class
 - addCourse() does not account for null parameters
 - addCourse() comments do not specify how duplicate courseId should be handled
 - toString() does not return StringBuilder result correctly
--
+
+MyFileDatabase class
+
+- departmentMapping not initialized when flag is not 0, it caused deSerializeObjectFromFile to throw exception
+- setMapping did not handle null, it caused toString error
