@@ -45,6 +45,7 @@ public class MyFileDatabase {
 
   /**
    * Deserializes the object from the file and returns the department mapping.
+   * Throws exception if data in file is invalid
    *
    * @return the deserialized department mapping
    */

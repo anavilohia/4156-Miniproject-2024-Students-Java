@@ -28,5 +28,21 @@ Department class
 
 MyFileDatabase class
 
-- departmentMapping not initialized when flag is not 0, it caused deSerializeObjectFromFile to throw exception
-- setMapping did not handle null, it caused toString error
+- departmentMapping not initialized when flag is not 0, it caused deSerializeObjectFromFile() to throw exception
+- setMapping() did not handle null, it caused toString error
+
+RouteController class
+
+- ResponseEntity<?> return type too generic in all methods, can be String
+- several methods do not change deptCode to uppercase before calling departmentMapping.get(deptCode)
+- Fail case response body can be more informative in several methods (ex - changeCourseTime)
+by using retrieveCourse response
+- if else statement can be simplified in several methods and else removed (ex - retrieveCourse())
+- retrieveDepartment() HTTP response body and status do not align
+- retrieveDepartment() if else statement can be simplified to remove not statement and else
+- retrieveDepartment() assumes all department codes are saved as uppercase but no other part of code ensures this
+- retrieveCourse() success case returns status FORBIDDEN instead of OK
+- getMajorCtFromDept() fail case returns status FORBIDDEN instead of NOT_FOUND
+- getMajorCtFromDept() success case string adds negative before the count
+- index() not formatted correctly
+- findCourseTime() does not specify time in success response
