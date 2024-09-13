@@ -2,7 +2,6 @@ package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -216,24 +215,24 @@ public class CourseUnitTests {
         "Griffin Newbold",
         "417 IAB",
         "11:40-12:55",
-        250);
+        53);
 
     int expectedResult = 39;
     tempCourse.setEnrolledStudentCount(39);
     assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
 
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      tempCourse.setEnrolledStudentCount(502);
-    });
-    assertEquals(
-        "Enrolled student count cannot exceed the course enrollment capacity of 250",
-        exception.getMessage());
+    expectedResult = 53;
+    tempCourse.setEnrolledStudentCount(53);
     assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
 
-    exception = assertThrows(IllegalArgumentException.class, () -> {
-      tempCourse.setEnrolledStudentCount(-30);
-    });
-    assertEquals("Enrolled student count cannot be negative", exception.getMessage());
+    expectedResult = 0;
+    tempCourse.setEnrolledStudentCount(0);
+    assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
+
+    tempCourse.setEnrolledStudentCount(-30);
+    assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
+
+    tempCourse.setEnrolledStudentCount(250);
     assertEquals(expectedResult, tempCourse.getEnrolledStudentCount());
   }
 

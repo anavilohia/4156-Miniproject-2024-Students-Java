@@ -82,13 +82,9 @@ public class Department implements Serializable {
    * @param course   The Course object to add.
    */
   public void addCourse(String courseId, Course course) {
-    if (courseId == null || courseId.isEmpty()) {
-      throw new IllegalArgumentException("Course ID cannot be null");
+    if (courseId != null && course != null) {
+      courses.put(courseId, course);
     }
-    if (course == null) {
-      throw new IllegalArgumentException("Course cannot be null");
-    }
-    courses.put(courseId, course);
   }
 
   /**

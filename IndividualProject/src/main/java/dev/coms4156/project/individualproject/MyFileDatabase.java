@@ -22,8 +22,11 @@ public class MyFileDatabase {
    */
   public MyFileDatabase(int flag, String filePath) {
     this.filePath = filePath;
+
     if (flag == 0) {
       this.departmentMapping = deSerializeObjectFromFile();
+    } else {
+      this.departmentMapping = new HashMap<>();
     }
   }
 
@@ -33,7 +36,11 @@ public class MyFileDatabase {
    * @param mapping the mapping of department names to Department objects
    */
   public void setMapping(HashMap<String, Department> mapping) {
-    this.departmentMapping = mapping;
+    if (mapping == null) {
+      this.departmentMapping = new HashMap<>();
+    } else {
+      this.departmentMapping = mapping;
+    }
   }
 
   /**
@@ -101,5 +108,5 @@ public class MyFileDatabase {
   /**
    * The mapping of department names to Department objects.
    */
-  private HashMap<String, Department> departmentMapping;
+  private HashMap<String, Department> departmentMapping = new HashMap<>();
 }

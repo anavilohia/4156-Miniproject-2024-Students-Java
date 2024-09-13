@@ -20,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class DepartmentUnitTests {
 
   /**
-   * Set up to be run before all tests.
+   * Set up to be run before each test.
    */
   @BeforeEach
   public void setupDepartmentForTesting() {
@@ -127,20 +127,10 @@ public class DepartmentUnitTests {
     testDept.addCourse("2323", testCourse);
     assertEquals(expectedCoursesMap, testDept.getCourseSelection());
 
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testDept.addCourse("3535", null);
-    });
-    assertEquals(
-        "Course cannot be null",
-        exception.getMessage());
+    testDept.addCourse("3535", null);
     assertEquals(expectedCoursesMap, testDept.getCourseSelection());
 
-    exception = assertThrows(IllegalArgumentException.class, () -> {
-      testDept.addCourse(null, null);
-    });
-    assertEquals(
-        "Course ID cannot be null",
-        exception.getMessage());
+    testDept.addCourse(null, null);
     assertEquals(expectedCoursesMap, testDept.getCourseSelection());
 
     expectedCoursesMap.replace("2323", testCourse3);
@@ -161,8 +151,8 @@ public class DepartmentUnitTests {
     expectedCoursesMap.put("7777", newCourse);
 
     testDept.createCourse("7777", "Cool", "LER 202", "11:40-12:55", 250);
-    HashMap<String, Course> actualCoursesMap = testDept.getCourseSelection();
 
+    HashMap<String, Course> actualCoursesMap = testDept.getCourseSelection();
     assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet());
     for (String courseId : expectedCoursesMap.keySet()) {
       Course expected = expectedCoursesMap.get(courseId);
@@ -170,18 +160,14 @@ public class DepartmentUnitTests {
       assertTrue(expected.equals(actual));
     }
 
-    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-      testDept.createCourse(null, null, null, null, -555);
-    });
-    assertEquals(
-        "Course ID cannot be null",
-        exception.getMessage());
+    testDept.createCourse(null, null, null, null, -555);
+    actualCoursesMap = testDept.getCourseSelection();
+    assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet());
 
     Course newCourse2 = new Course("Unknown", "Unknown", "Unknown", 0);
     expectedCoursesMap.replace("7777", newCourse2);
     testDept.createCourse("7777", null, null, null, -555);
     actualCoursesMap = testDept.getCourseSelection();
-
     assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet());
     for (String courseId : expectedCoursesMap.keySet()) {
       Course expected = expectedCoursesMap.get(courseId);
