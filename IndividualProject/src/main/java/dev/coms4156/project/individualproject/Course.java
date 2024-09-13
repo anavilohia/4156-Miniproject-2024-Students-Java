@@ -132,18 +132,16 @@ public class Course implements Serializable {
   }
 
   /**
-   * Sets the course enrollment count.
+   * Sets the course enrollment count if count is a valid value from 0 to capacity.
    *
    * @param count the count to be set for the enrolledStudentCount
    */
   public void setEnrolledStudentCount(int count) {
-    if (count > enrollmentCapacity) {
-      throw new IllegalArgumentException(
-          "Enrolled student count cannot exceed the course enrollment capacity of "
-              + enrollmentCapacity);
+    if(count > this.enrollmentCapacity){
+      return;
     }
-    if (count < 0) {
-      throw new IllegalArgumentException("Enrolled student count cannot be negative");
+    if(count < 0){
+      return;
     }
     this.enrolledStudentCount = count;
   }
