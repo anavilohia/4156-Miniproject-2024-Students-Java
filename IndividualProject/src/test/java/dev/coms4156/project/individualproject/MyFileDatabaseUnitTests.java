@@ -1,10 +1,11 @@
 package dev.coms4156.project.individualproject;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,8 +14,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 /**
  * Unit tests to be used for MyFileDatabase class.
@@ -60,7 +64,7 @@ class MyFileDatabaseUnitTests {
 
     myFileDatabase.setMapping(null);
     assertNotNull(myFileDatabase.getDepartmentMapping());
-    assert(myFileDatabase.getDepartmentMapping().isEmpty());
+    assert (myFileDatabase.getDepartmentMapping().isEmpty());
   }
 
   /**
@@ -68,21 +72,24 @@ class MyFileDatabaseUnitTests {
    */
   @Test
   void deSerializeObjectFromFileTest() {
-    actualDepartmentsMap =  myFileDatabase.deSerializeObjectFromFile();
+    actualDepartmentsMap = myFileDatabase.deSerializeObjectFromFile();
     assertNotNull(actualDepartmentsMap);
     assertFalse(actualDepartmentsMap.isEmpty());
     assertTrue(actualDepartmentsMap.containsKey("COMS"));
 
-    Set<String> expectedKeySet = new HashSet<>(Arrays.asList("COMS", "ECON", "IEOR", "CHEM", "PHYS", "ELEN", "PSYC"));
+    Set<String> expectedKeySet =
+        new HashSet<>(Arrays.asList("COMS", "ECON", "IEOR", "CHEM", "PHYS", "ELEN", "PSYC"));
     Set<String> actualKeySet = actualDepartmentsMap.keySet();
     assertEquals(expectedKeySet, actualKeySet);
 
     String expectedValue = "Trenton Jerde";
-    String actualValue = actualDepartmentsMap.get("PSYC").getCourseSelection().get("4236").getInstructorName();
+    String actualValue =
+        actualDepartmentsMap.get("PSYC").getCourseSelection().get("4236").getInstructorName();
     assertEquals(expectedValue, actualValue);
 
     int expectedCount = 0;
-    int actualCount = actualDepartmentsMap.get("CHEM").getCourseSelection().get("1500").getEnrolledStudentCount();
+    int actualCount =
+        actualDepartmentsMap.get("CHEM").getCourseSelection().get("1500").getEnrolledStudentCount();
     assertEquals(expectedCount, actualCount);
   }
 
@@ -96,15 +103,15 @@ class MyFileDatabaseUnitTests {
     testDatabase.saveContentsToFile();
     actualDepartmentsMap = testDatabase.deSerializeObjectFromFile();
     assertNotNull(actualDepartmentsMap);
-    assert(actualDepartmentsMap.isEmpty());
+    assert (actualDepartmentsMap.isEmpty());
 
     testDatabase.setMapping(expectedDepartmentsMap);
     testDatabase.saveContentsToFile();
-    actualDepartmentsMap =  testDatabase.deSerializeObjectFromFile();
+    actualDepartmentsMap = testDatabase.deSerializeObjectFromFile();
     assertNotNull(actualDepartmentsMap);
-    assert(!actualDepartmentsMap.isEmpty());
+    assert (!actualDepartmentsMap.isEmpty());
 
-    assert(actualDepartmentsMap.containsKey("BIOL"));
+    assert (actualDepartmentsMap.containsKey("BIOL"));
 
     try {
       Files.delete(Paths.get("./testDataFile.txt"));
@@ -138,12 +145,12 @@ class MyFileDatabaseUnitTests {
 
     myFileDatabase.setMapping(expectedDepartmentsMap);
     assertEquals("For the BIOL department: \n"
-        + "BIOL 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
-        + "BIOL 3134: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n"
-        + "For the COMS department: \n"
-        + "COMS 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
-        + "COMS 3134: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n"
-        , myFileDatabase.toString());
+            + "BIOL 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
+            + "BIOL 3134: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n"
+            + "For the COMS department: \n"
+            + "COMS 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
+            + "COMS 3134: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n",
+        myFileDatabase.toString());
 
     myFileDatabase.setMapping(null);
     assertEquals("", myFileDatabase.toString());

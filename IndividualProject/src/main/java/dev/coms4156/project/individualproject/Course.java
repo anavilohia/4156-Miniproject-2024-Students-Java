@@ -137,10 +137,10 @@ public class Course implements Serializable {
    * @param count the count to be set for the enrolledStudentCount
    */
   public void setEnrolledStudentCount(int count) {
-    if(count > this.enrollmentCapacity){
+    if (count > this.enrollmentCapacity) {
       return;
     }
-    if(count < 0){
+    if (count < 0) {
       return;
     }
     this.enrolledStudentCount = count;
@@ -156,7 +156,7 @@ public class Course implements Serializable {
   }
 
   /**
-   *Check's if other Course is equal to this Course.
+   * Check's if other Course is equal to this Course.
    *
    * @param other Course to be compared to this Course.
    * @return true if all internal params have same value.

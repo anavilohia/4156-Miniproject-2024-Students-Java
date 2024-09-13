@@ -62,22 +62,12 @@ public class IndividualProjectApplication implements CommandLineRunner {
    * Allows for data to be reset in event of errors.
    */
   public void resetDataFile() {
-    String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
-//    String[] timeSlots = {"10:10-11:25", "11:40-12:55", "1:10-3:40", "2:40-3:55", "4:10-5:25"};
-    String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
+    final String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
+    final String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
 
-    // these map instances hold pairs of Course codes and their respective courses
+    // Data for CHEM department courses.
     HashMap<String, Course> chemCourses = new HashMap<>();
-    HashMap<String, Course> comsCourses = new HashMap<>();
-    HashMap<String, Course> econCourses = new HashMap<>();
-    HashMap<String, Course> elenCourses = new HashMap<>();
-    HashMap<String, Course> ieorCourses = new HashMap<>();
-    HashMap<String, Course> physCourses = new HashMap<>();
-    HashMap<String, Course> psycCourses = new HashMap<>();
 
-    /**
-     * Data for CHEM department courses.
-     */
     Course chem1403 = new Course("Ruben M Savizky", locations[1], "6:10-7:25", 120);
     chem1403.setEnrolledStudentCount(100);
     chemCourses.put("1403", chem1403);
@@ -110,9 +100,9 @@ public class IndividualProjectApplication implements CommandLineRunner {
     chem4102.setEnrolledStudentCount(27);
     chemCourses.put("4102", chem4102);
 
-    /**
-     * Data for COMS department courses.
-     */
+    // Data for COMS department courses.
+    HashMap<String, Course> comsCourses = new HashMap<>();
+
     Course coms1004 = new Course("Adam Cannon", locations[0], times[0], 400);
     coms1004.setEnrolledStudentCount(249);
     comsCourses.put("1004", coms1004);
@@ -145,9 +135,9 @@ public class IndividualProjectApplication implements CommandLineRunner {
     coms4156.setEnrolledStudentCount(109);
     comsCourses.put("4156", coms4156);
 
-    /**
-     * Data for ECON department courses.
-     */
+    // Data for ECON department courses.
+    HashMap<String, Course> econCourses = new HashMap<>();
+
     Course econ1105 = new Course("Waseem Noor", locations[1], times[3], 210);
     econ1105.setEnrolledStudentCount(187);
     econCourses.put("1105", econ1105);
@@ -180,9 +170,9 @@ public class IndividualProjectApplication implements CommandLineRunner {
     econ4840.setEnrolledStudentCount(67);
     econCourses.put("4840", econ4840);
 
-    /**
-     * Data for ELEN department courses.
-     */
+    //Data for ELEN department courses.
+    HashMap<String, Course> elenCourses = new HashMap<>();
+
     Course elen1201 = new Course("David G Vallancourt", "301 PUP", times[1], 120);
     elen1201.setEnrolledStudentCount(108);
     elenCourses.put("1201", elen1201);
@@ -215,9 +205,9 @@ public class IndividualProjectApplication implements CommandLineRunner {
     elen4830.setEnrolledStudentCount(22);
     elenCourses.put("4830", elen4830);
 
-    /**
-     * Data for IEOR department courses.
-     */
+    //Data for IEOR department courses.
+    HashMap<String, Course> ieorCourses = new HashMap<>();
+
     Course ieor2500 = new Course("Uday Menon", "627 MUDD", times[0], 50);
     ieor2500.setEnrolledStudentCount(52);
     ieorCourses.put("2500", ieor2500);
@@ -250,9 +240,9 @@ public class IndividualProjectApplication implements CommandLineRunner {
     ieor4540.setEnrolledStudentCount(33);
     ieorCourses.put("4540", ieor4540);
 
-    /**
-     * Data for PHYS department courses.
-     */
+    //Data for PHYS department courses.
+    HashMap<String, Course> physCourses = new HashMap<>();
+
     Course phys1001 = new Course("Szabolcs Marka", "301 PUP", times[3], 150);
     phys1001.setEnrolledStudentCount(131);
     physCourses.put("1001", phys1001);
@@ -285,9 +275,9 @@ public class IndividualProjectApplication implements CommandLineRunner {
     phys4040.setEnrolledStudentCount(31);
     physCourses.put("4040", phys4040);
 
-    /**
-     * Data for PSYC department courses.
-     */
+    // Data for PSYC department courses.
+    HashMap<String, Course> psycCourses = new HashMap<>();
+
     Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
     psyc1001.setEnrolledStudentCount(191);
     psycCourses.put("1001", psyc1001);
@@ -319,7 +309,6 @@ public class IndividualProjectApplication implements CommandLineRunner {
     Course psyc4493 = new Course("Jennifer Blaze", "200 SCH", "2:10-4:00", 15);
     psyc4493.setEnrolledStudentCount(9);
     psycCourses.put("4493", psyc4493);
-
 
     // create Department objects using course data
     Department chem = new Department("CHEM", chemCourses, "Laura J. Kaufman", 250);
