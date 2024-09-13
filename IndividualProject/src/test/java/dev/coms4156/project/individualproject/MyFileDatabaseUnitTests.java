@@ -31,7 +31,7 @@ class MyFileDatabaseUnitTests {
    * Set up to be run before all tests.
    */
   @BeforeAll
-  static void setupDataForTesting() {
+  public static void setupDataForTesting() {
     testCourse1 = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
     testCourse1.setEnrolledStudentCount(249);
     testCourse2 = new Course("Prof. K", "Mudd 343", "1 to 4 pm", 34);
@@ -47,6 +47,9 @@ class MyFileDatabaseUnitTests {
     expectedDepartmentsMap.put("BIOL", biolDept);
   }
 
+  /**
+   * Set up to be run before each test.
+   */
   @BeforeEach
   void setupMyFileDatabaseForTesting() {
     myFileDatabase = new MyFileDatabase(1, "./data.txt");

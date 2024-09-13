@@ -89,6 +89,15 @@ public class Course implements Serializable {
   }
 
   /**
+   * Gets the capacity for the course.
+   *
+   * @return A {@code int} enrollmentCapacity.
+   */
+  public int getEnrollmentCapacity() {
+    return this.enrollmentCapacity;
+  }
+
+  /**
    * Forms a string containing course information, including its instructor's name,
    * * location, and time slot.
    *
