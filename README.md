@@ -41,4 +41,7 @@ Click Pre Defined
 Click ALL
 ```
 
+honesty.txt and citations.txt are located at root level of this repository
+bugs.txt is located inside IndividualProject folder
+
 
