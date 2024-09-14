@@ -2,6 +2,7 @@
 
 Please follow the assignment specifications on Courseworks when completing this project.
 
+---------------------------------------------
 
 To setup the project I use:
 ```
