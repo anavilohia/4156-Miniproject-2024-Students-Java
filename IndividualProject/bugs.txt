@@ -46,3 +46,18 @@ by using retrieveCourse response
 - getMajorCtFromDept() success case string adds negative before the count
 - index() not formatted correctly
 - findCourseTime() does not specify time in success response
+
+PMD Errors
+
+- replace duplicate literals with final/const variable
+- Use textblock for multi line strings in tests
+- refactor resetData() in IPA class by extracting long code to separate methods
+- Use logger instead of system.out
+- in deSerializeObjectFromFile() in MyFileDatabase remove unchecked cast
+- remove public modifier from tests
+- RouteController() use locale for toUpperCase() conversions
+- LooseCoupling everywhere
+- unitTests should be PackagePrivate
+- unit test asserts should include message
+- simplify TestAssertion
+- Avoid using literals in if statements in IPA class run()

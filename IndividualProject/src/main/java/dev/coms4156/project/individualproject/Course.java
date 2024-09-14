@@ -104,6 +104,7 @@ public class Course implements Serializable {
    * @return A {@code String} of the format
    *     "Instructor: instructorName; Location: courseLocation; Time: courseTimeSlot"
    */
+  @Override
   public String toString() {
     return "\nInstructor: "
         + instructorName
@@ -119,7 +120,7 @@ public class Course implements Serializable {
    * @param newInstructorName the new name to be set for the instructorName
    */
   public void reassignInstructor(String newInstructorName) {
-    this.instructorName = (newInstructorName != null) ? newInstructorName : "Unknown";
+    this.instructorName = (newInstructorName != null) ? newInstructorName : UNKNOWN;
   }
 
   /**
@@ -128,7 +129,7 @@ public class Course implements Serializable {
    * @param newLocation the new location to be set for the courseLocation
    */
   public void reassignLocation(String newLocation) {
-    this.courseLocation = (newLocation != null) ? newLocation : "Unknown";
+    this.courseLocation = (newLocation != null) ? newLocation : UNKNOWN;
   }
 
   /**
@@ -162,23 +163,6 @@ public class Course implements Serializable {
    */
   public boolean isCourseFull() {
     return enrollmentCapacity == enrolledStudentCount;
-  }
-
-  /**
-   * Check's if other Course is equal to this Course.
-   *
-   * @param other Course to be compared to this Course.
-   * @return true if all internal params have same value.
-   */
-  public boolean equals(Course other) {
-    if (this == other) {
-      return true;
-    }
-    return this.instructorName.equals(other.instructorName)
-        && this.courseLocation.equals(other.courseLocation)
-        && this.courseTimeSlot.equals(other.courseTimeSlot)
-        && this.enrollmentCapacity == other.enrollmentCapacity
-        && this.enrolledStudentCount == other.enrolledStudentCount;
   }
 
   // const and variables

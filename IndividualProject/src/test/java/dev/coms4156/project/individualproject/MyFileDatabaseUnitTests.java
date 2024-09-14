@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,14 +61,18 @@ class MyFileDatabaseUnitTests {
    */
   @Test
   void setMappingTest() {
-    assertNotEquals(expectedDepartmentsMap, myFileDatabase.getDepartmentMapping());
+    assertNotEquals(expectedDepartmentsMap, myFileDatabase.getDepartmentMapping(),
+        "Initial department mapping should not equal expectedDepartmentsMap");
 
     myFileDatabase.setMapping(expectedDepartmentsMap);
-    assertEquals(expectedDepartmentsMap, myFileDatabase.getDepartmentMapping());
+    assertEquals(expectedDepartmentsMap, myFileDatabase.getDepartmentMapping(),
+        "Department mapping should be expectedDepartmentsMap after setMapping call");
 
     myFileDatabase.setMapping(null);
-    assertNotNull(myFileDatabase.getDepartmentMapping());
-    assert (myFileDatabase.getDepartmentMapping().isEmpty());
+    assertNotNull(myFileDatabase.getDepartmentMapping(),
+        "Department mapping should not be null after setting to null");
+    assertTrue(myFileDatabase.getDepartmentMapping().isEmpty(),
+        "Department mapping should be empty after setting to null");
   }
 
   /**
@@ -75,25 +80,31 @@ class MyFileDatabaseUnitTests {
    */
   @Test
   void deSerializeObjectFromFileTest() {
-    actualDepartmentsMap = myFileDatabase.deSerializeObjectFromFile();
-    assertNotNull(actualDepartmentsMap);
-    assertFalse(actualDepartmentsMap.isEmpty());
-    assertTrue(actualDepartmentsMap.containsKey(DEPARTMENT_CODES[1]));
+    actualDepartmentsMap = (HashMap<String, Department>) myFileDatabase.deSerializeObjectFromFile();
+    assertNotNull(actualDepartmentsMap,
+        "Deserialized departments map should not be null");
+    assertFalse(actualDepartmentsMap.isEmpty(),
+        "Deserialized departments map should not be empty");
+    assertTrue(actualDepartmentsMap.containsKey(DEPARTMENT_CODES[1]),
+        "Departments map should contain the key for" + DEPARTMENT_CODES[1]);
 
     Set<String> expectedKeySet =
         new HashSet<>(Arrays.asList(DEPARTMENT_CODES));
     Set<String> actualKeySet = actualDepartmentsMap.keySet();
-    assertEquals(expectedKeySet, actualKeySet);
+    assertEquals(expectedKeySet, actualKeySet,
+        "Expected key set should match the actual key set");
 
     String expectedValue = "Trenton Jerde";
     String actualValue =
         actualDepartmentsMap.get("PSYC").getCourseSelection().get("4236").getInstructorName();
-    assertEquals(expectedValue, actualValue);
+    assertEquals(expectedValue, actualValue,
+        "Instructor name for course 'PSYC 4236' should be 'Trenton Jerde'");
 
     int expectedCount = 0;
     int actualCount =
         actualDepartmentsMap.get("CHEM").getCourseSelection().get("1500").getEnrolledStudentCount();
-    assertEquals(expectedCount, actualCount);
+    assertEquals(expectedCount, actualCount,
+        "Enrolled student count for course 'CHEM 1500' should be 0");
   }
 
   /**
@@ -104,17 +115,22 @@ class MyFileDatabaseUnitTests {
     MyFileDatabase testDatabase = new MyFileDatabase(1, "./testDataFile.txt");
 
     testDatabase.saveContentsToFile();
-    actualDepartmentsMap = testDatabase.deSerializeObjectFromFile();
-    assertNotNull(actualDepartmentsMap);
-    assert (actualDepartmentsMap.isEmpty());
+    actualDepartmentsMap = (HashMap<String, Department>) testDatabase.deSerializeObjectFromFile();
+    assertNotNull(actualDepartmentsMap,
+        "Deserialized departments map should not be null");
+    assertTrue(actualDepartmentsMap.isEmpty(),
+        "Deserialized departments map should be empty");
 
     testDatabase.setMapping(expectedDepartmentsMap);
     testDatabase.saveContentsToFile();
-    actualDepartmentsMap = testDatabase.deSerializeObjectFromFile();
-    assertNotNull(actualDepartmentsMap);
-    assert (!actualDepartmentsMap.isEmpty());
+    actualDepartmentsMap = (HashMap<String, Department>) testDatabase.deSerializeObjectFromFile();
+    assertNotNull(actualDepartmentsMap,
+        "Deserialized departments map should not be null");
+    assertFalse(actualDepartmentsMap.isEmpty(),
+        "Deserialized departments map should not be empty after save");
 
-    assert (actualDepartmentsMap.containsKey(DEPARTMENT_CODES[2]));
+    assertTrue(actualDepartmentsMap.containsKey(DEPARTMENT_CODES[2]),
+        "Departments map should contain the key for " + DEPARTMENT_CODES[2]);
 
     try {
       Files.delete(Paths.get("./testDataFile.txt"));
@@ -130,12 +146,15 @@ class MyFileDatabaseUnitTests {
   void getDepartmentMappingTest() {
     myFileDatabase.setMapping(expectedDepartmentsMap);
     actualDepartmentsMap = myFileDatabase.getDepartmentMapping();
-    assertEquals(expectedDepartmentsMap, actualDepartmentsMap);
+    assertEquals(expectedDepartmentsMap, actualDepartmentsMap,
+        "Department mapping should match the expectedDepartmentsMap after setting it");
 
     MyFileDatabase testDatabase = new MyFileDatabase(1, "./testDataFile.txt");
     actualDepartmentsMap = testDatabase.getDepartmentMapping();
-    assertNotNull(actualDepartmentsMap);
-    assertTrue(actualDepartmentsMap.isEmpty());
+    assertNotNull(actualDepartmentsMap,
+        "Department mapping from testDatabase should not be null");
+    assertTrue(actualDepartmentsMap.isEmpty(),
+        "Department mapping from testDatabase should be empty if not set");
   }
 
   /**
@@ -143,7 +162,8 @@ class MyFileDatabaseUnitTests {
    */
   @Test
   void toStringTest() {
-    assertEquals("", myFileDatabase.toString());
+    assertEquals("", myFileDatabase.toString(),
+        "Database to string must be empty string");
 
     myFileDatabase.setMapping(expectedDepartmentsMap);
     assertEquals("""
@@ -158,10 +178,12 @@ class MyFileDatabaseUnitTests {
            ECON 3134:\s
            Instructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm
            """,
-        myFileDatabase.toString());
+        myFileDatabase.toString(),
+        "String should match expectedString");
 
     myFileDatabase.setMapping(null);
-    assertEquals("", myFileDatabase.toString());
+    assertEquals("", myFileDatabase.toString(),
+        "String should be empty when mapping is set to null");
   }
 
   /**
@@ -176,8 +198,8 @@ class MyFileDatabaseUnitTests {
   public static Course testCourse2;
   public static Department comsDept;
   public static Department econDept;
-  public static HashMap<String, Course> coursesMap;
-  public static HashMap<String, Department> expectedDepartmentsMap;
-  public static HashMap<String, Department> actualDepartmentsMap;
+  public static Map<String, Course> coursesMap;
+  public static Map<String, Department> expectedDepartmentsMap;
+  public static Map<String, Department> actualDepartmentsMap;
   static final String[] DEPARTMENT_CODES = {"CHEM", "COMS", "ECON", "ELEN", "IEOR", "PHYS", "PSYC"};
 }

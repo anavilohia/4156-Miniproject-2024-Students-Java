@@ -2,6 +2,9 @@ package dev.coms4156.project.individualproject;
 
 import jakarta.annotation.PreDestroy;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,17 +38,23 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @param args A {@code String[]} of any potential runtime args
    */
+  @Override
   public void run(String[] args) {
+    final String setup = "setup";
     for (String arg : args) {
-      if (arg.equals("setup")) {
+      if (setup.equals(arg)) {
         myFileDatabase = new MyFileDatabase(1, "./data.txt");
         resetDataFile();
-        System.out.println("System Setup");
+        if (LOGGER.isLoggable(Level.INFO)) {
+          LOGGER.log(Level.INFO, "System Setup");
+        }
         return;
       }
     }
     myFileDatabase = new MyFileDatabase(0, "./data.txt");
-    System.out.println("Start up");
+    if (LOGGER.isLoggable(Level.INFO)) {
+      LOGGER.log(Level.INFO, "Start up");
+    }
   }
 
   /**
@@ -73,7 +82,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     Department psyc = new Department("PSYC", getPsycCourses(), "Nim Tottenham", 437);
 
     // create hashmap and add all mappings for dept code and department object
-    HashMap<String, Department> mapping = new HashMap<>();
+    Map<String, Department> mapping = new HashMap<>();
     mapping.put("CHEM", chem);
     mapping.put("COMS", coms);
     mapping.put("ECON", econ);
@@ -90,8 +99,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @return HashMap of String,Course chemCourses.
    */
-  private HashMap<String, Course> getChemCourses() {
-    HashMap<String, Course> chemCourses = new HashMap<>();
+  private Map<String, Course> getChemCourses() {
+    Map<String, Course> chemCourses = new HashMap<>();
 
     Course chem1403 = new Course("Ruben M Savizky", locations[1], "6:10-7:25", 120);
     chem1403.setEnrolledStudentCount(100);
@@ -133,8 +142,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @return HashMap of String,Course comsCourses.
    */
-  private HashMap<String, Course> getComsCourses() {
-    HashMap<String, Course> comsCourses = new HashMap<>();
+  private Map<String, Course> getComsCourses() {
+    Map<String, Course> comsCourses = new HashMap<>();
 
     Course coms1004 = new Course("Adam Cannon", locations[0], times[0], 400);
     coms1004.setEnrolledStudentCount(249);
@@ -175,8 +184,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @return HashMap of String,Course econCourses.
    */
-  private HashMap<String, Course> getEconCourses() {
-    HashMap<String, Course> econCourses = new HashMap<>();
+  private Map<String, Course> getEconCourses() {
+    Map<String, Course> econCourses = new HashMap<>();
 
     Course econ1105 = new Course("Waseem Noor", locations[1], times[3], 210);
     econ1105.setEnrolledStudentCount(187);
@@ -218,8 +227,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @return HashMap of String,Course elenCourses.
    */
-  private HashMap<String, Course> getElenCourses() {
-    HashMap<String, Course> elenCourses = new HashMap<>();
+  private Map<String, Course> getElenCourses() {
+    Map<String, Course> elenCourses = new HashMap<>();
 
     Course elen1201 = new Course("David G Vallancourt", "301 PUP", times[1], 120);
     elen1201.setEnrolledStudentCount(108);
@@ -261,8 +270,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @return HashMap of String,Course ieorCourses.
    */
-  private HashMap<String, Course> getIeorCourses() {
-    HashMap<String, Course> ieorCourses = new HashMap<>();
+  private Map<String, Course> getIeorCourses() {
+    Map<String, Course> ieorCourses = new HashMap<>();
 
     Course ieor2500 = new Course("Uday Menon", "627 MUDD", times[0], 50);
     ieor2500.setEnrolledStudentCount(52);
@@ -304,8 +313,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @return HashMap of String,Course physCourses.
    */
-  private HashMap<String, Course> getPhysCourses() {
-    HashMap<String, Course> physCourses = new HashMap<>();
+  private Map<String, Course> getPhysCourses() {
+    Map<String, Course> physCourses = new HashMap<>();
 
     Course phys1001 = new Course("Szabolcs Marka", "301 PUP", times[3], 150);
     phys1001.setEnrolledStudentCount(131);
@@ -347,8 +356,8 @@ public class IndividualProjectApplication implements CommandLineRunner {
    *
    * @return HashMap of String,Course PsycCourses.
    */
-  private HashMap<String, Course> getPsycCourses() {
-    HashMap<String, Course> psycCourses = new HashMap<>();
+  private Map<String, Course> getPsycCourses() {
+    Map<String, Course> psycCourses = new HashMap<>();
 
     Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
     psyc1001.setEnrolledStudentCount(191);
@@ -392,7 +401,9 @@ public class IndividualProjectApplication implements CommandLineRunner {
    */
   @PreDestroy
   public void onTermination() {
-    System.out.println("Termination");
+    if (LOGGER.isLoggable(Level.INFO)) {
+      LOGGER.log(Level.INFO, "Termination");
+    }
     if (saveData) {
       myFileDatabase.saveContentsToFile();
     }
@@ -401,6 +412,13 @@ public class IndividualProjectApplication implements CommandLineRunner {
   //Database Instance
   public static MyFileDatabase myFileDatabase;
   private static boolean saveData = true;
+
+  // reused values
   final String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
   final String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
+
+  /**
+   * Logger to print information and exceptions.
+   */
+  private static final Logger LOGGER = Logger.getLogger(MyFileDatabase.class.getName());
 }

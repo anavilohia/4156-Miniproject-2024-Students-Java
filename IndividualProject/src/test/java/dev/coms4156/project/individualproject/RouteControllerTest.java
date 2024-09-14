@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,28 +43,38 @@ class RouteControllerTest {
    */
   @Test
   void retrieveDepartmentTest() {
-    departmentsMap.put("COMS", mockDepartment);
-    departmentsMap.put("ENGL", mockDepartment);
+    departmentsMap.put(comsUppercase, mockDepartment);
+    departmentsMap.put(englUppercase, mockDepartment);
 
-    response = routeController.retrieveDepartment("COMS");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(mockDepartment.toString(), response.getBody());
+    response = routeController.retrieveDepartment(comsUppercase);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals(mockDepartment.toString(), response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.retrieveDepartment("coms");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(mockDepartment.toString(), response.getBody());
+    response = routeController.retrieveDepartment(comsLowerrcase);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals(mockDepartment.toString(), response.getBody(),
+        bodyMatchMessage);
 
     response = routeController.retrieveDepartment("eNGL");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(mockDepartment.toString(), response.getBody());
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals(mockDepartment.toString(), response.getBody(),
+        bodyMatchMessage);
 
     response = routeController.retrieveDepartment("Engl");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(mockDepartment.toString(), response.getBody());
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals(mockDepartment.toString(), response.getBody(),
+        bodyMatchMessage);
 
     response = routeController.retrieveDepartment("MATH");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        "Response code should be 404");
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
@@ -72,19 +83,25 @@ class RouteControllerTest {
   @Test
   void retrieveCourseTest() {
     coursesMap.put("3214", mockCourse);
-    departmentsMap.put("COMS", mockDepartment);
+    departmentsMap.put(comsUppercase, mockDepartment);
 
-    response = routeController.retrieveCourse("COMS", 3214);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(mockCourse.toString(), response.getBody());
+    response = routeController.retrieveCourse(comsUppercase, 3214);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        "Response status code should be OK");
+    assertEquals(mockCourse.toString(), response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.retrieveCourse("coms", 3212);
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
+    response = routeController.retrieveCourse(comsLowerrcase, 3212);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(courseNotFound, response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.retrieveCourse("ENGL", 3214);
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response = routeController.retrieveCourse(englUppercase, 3214);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
@@ -92,26 +109,34 @@ class RouteControllerTest {
    */
   @Test
   void isCourseFullTest() {
-    coursesMap.put("1234", mockCourse);
-    departmentsMap.put("COMS", mockDepartment);
+    coursesMap.put(courseId, mockCourse);
+    departmentsMap.put(comsUppercase, mockDepartment);
 
     when(mockCourse.isCourseFull()).thenReturn(true);
-    response = routeController.isCourseFull("COMS", 1234);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("true", response.getBody());
+    response = routeController.isCourseFull(comsUppercase, 1234);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("true", response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.isCourseFull("COMS", 123);
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
+    response = routeController.isCourseFull(comsUppercase, 123);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(courseNotFound, response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.isCourseFull("ENGL", 1234);
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response = routeController.isCourseFull(englUppercase, 1234);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
 
     when(mockCourse.isCourseFull()).thenReturn(false);
-    response = routeController.isCourseFull("COMS", 1234);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("false", response.getBody());
+    response = routeController.isCourseFull(comsUppercase, 1234);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("false", response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
@@ -123,12 +148,16 @@ class RouteControllerTest {
     when(mockDepartment.getNumberOfMajors()).thenReturn(760);
 
     response = routeController.getMajorCtFromDept("PHYS");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("There are: 760 majors in the department", response.getBody());
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("There are: 760 majors in the department", response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.getMajorCtFromDept("COMS");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response = routeController.getMajorCtFromDept(comsUppercase);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
@@ -136,18 +165,22 @@ class RouteControllerTest {
    */
   @Test
   void identifyDeptChairTest() {
-    departmentsMap.put("COMS", mockDepartment);
+    departmentsMap.put(comsUppercase, mockDepartment);
     when(mockDepartment.getDepartmentChair()).thenReturn("Jae Woo Lee");
 
-    response = routeController.identifyDeptChair("COMS");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Jae Woo Lee is the department chair.", response.getBody());
+    response = routeController.identifyDeptChair(comsUppercase);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("Jae Woo Lee is the department chair.", response.getBody(),
+        bodyMatchMessage);
 
     verify(mockDepartment).getDepartmentChair();
 
-    response = routeController.identifyDeptChair("ENGL");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response = routeController.identifyDeptChair(englUppercase);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
 
     verify(mockDepartment).getDepartmentChair();
   }
@@ -157,20 +190,24 @@ class RouteControllerTest {
    */
   @Test
   void findCourseTimeTest() {
-    coursesMap.put("1234", mockCourse);
-    departmentsMap.put("COMS", mockDepartment);
+    coursesMap.put(courseId, mockCourse);
+    departmentsMap.put(comsUppercase, mockDepartment);
 
     when(mockCourse.getCourseTimeSlot()).thenReturn("10:00 AM - 11:30 AM");
 
-    response = routeController.findCourseTime("COMS", 1234);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("The course meets at: 10:00 AM - 11:30 AM", response.getBody());
+    response = routeController.findCourseTime(comsUppercase, 1234);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("The course meets at: 10:00 AM - 11:30 AM", response.getBody(),
+        bodyMatchMessage);
 
     verify(mockCourse).getCourseTimeSlot();
 
-    response = routeController.findCourseTime("COMS", 1111);
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
+    response = routeController.findCourseTime(comsUppercase, 1111);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(courseNotFound, response.getBody(),
+        bodyMatchMessage);
 
     verify(mockCourse).getCourseTimeSlot();
 
@@ -181,26 +218,34 @@ class RouteControllerTest {
    */
   @Test
   void dropStudentTest() {
-    coursesMap.put("1234", mockCourse);
-    departmentsMap.put("COMS", mockDepartment);
+    coursesMap.put(courseId, mockCourse);
+    departmentsMap.put(comsUppercase, mockDepartment);
 
     when(mockCourse.dropStudent()).thenReturn(true);
-    response = routeController.dropStudent("COMS", 1234);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Student has been dropped.", response.getBody());
+    response = routeController.dropStudent(comsUppercase, 1234);
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("Student has been dropped.", response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.dropStudent("COMS", 123);
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
+    response = routeController.dropStudent(comsUppercase, 123);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(courseNotFound, response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.dropStudent("ENGL", 1234);
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response = routeController.dropStudent(englUppercase, 1234);
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
 
     when(mockCourse.dropStudent()).thenReturn(false);
-    response = routeController.dropStudent("COMS", 1234);
-    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    assertEquals("Student has not been dropped.", response.getBody());
+    response = routeController.dropStudent(comsUppercase, 1234);
+    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(),
+        "Response status code should be 400");
+    assertEquals("Student has not been dropped.", response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
@@ -208,22 +253,28 @@ class RouteControllerTest {
    */
   @Test
   void changeCourseTimeTest() {
-    coursesMap.put("1234", mockCourse);
-    departmentsMap.put("COMS", mockDepartment);
+    coursesMap.put(courseId, mockCourse);
+    departmentsMap.put(comsUppercase, mockDepartment);
 
     doNothing().when(mockCourse).reassignTime(anyString());
 
-    response = routeController.changeCourseTime("coms", 1234, "1-5");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    response = routeController.changeCourseTime(comsLowerrcase, 1234, "1-5");
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("Attributed was updated successfully.", response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.changeCourseTime("coms", 1111, "1:40");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
+    response = routeController.changeCourseTime(comsLowerrcase, 1111, "1:40");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(courseNotFound, response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.changeCourseTime("ENGL", 1234, "2:30-3:30");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response = routeController.changeCourseTime(englUppercase, 1234, "2:30-3:30");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
@@ -231,22 +282,31 @@ class RouteControllerTest {
    */
   @Test
   void changeCourseTeacherTest() {
-    coursesMap.put("1234", mockCourse);
-    departmentsMap.put("COMS", mockDepartment);
+    coursesMap.put(courseId, mockCourse);
+    departmentsMap.put(comsUppercase, mockDepartment);
 
     doNothing().when(mockCourse).reassignInstructor(anyString());
 
-    response = routeController.changeCourseTeacher("coms", 1234, "BLAH");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    response =
+        routeController.changeCourseTeacher(comsLowerrcase, 1234, "BLAH");
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("Attributed was updated successfully.", response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.changeCourseTeacher("coms", 1111, "pineapple");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
+    response =
+        routeController.changeCourseTeacher(comsLowerrcase, 1111, "pineapple");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(courseNotFound, response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.changeCourseTeacher("ENGL", 1234, "my teacher");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response =
+        routeController.changeCourseTeacher(englUppercase, 1234, "my teacher");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
@@ -254,31 +314,46 @@ class RouteControllerTest {
    */
   @Test
   void changeCourseLocationTest() {
-    coursesMap.put("1234", mockCourse);
-    departmentsMap.put("COMS", mockDepartment);
+    coursesMap.put(courseId, mockCourse);
+    departmentsMap.put(comsUppercase, mockDepartment);
 
     doNothing().when(mockCourse).reassignLocation(anyString());
 
-    response = routeController.changeCourseLocation("coms", 1234, "SCH 304");
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals("Attributed was updated successfully.", response.getBody());
+    response = routeController.changeCourseLocation(comsLowerrcase, 1234, "SCH 304");
+    assertEquals(HttpStatus.OK, response.getStatusCode(),
+        okTestMessage);
+    assertEquals("Attributed was updated successfully.", response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.changeCourseLocation("coms", 1111, "SCH 304");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Course Not Found", response.getBody());
+    response = routeController.changeCourseLocation(comsLowerrcase, 1111, "SCH 304");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(courseNotFound, response.getBody(),
+        bodyMatchMessage);
 
-    response = routeController.changeCourseLocation("ENGL", 1234, "SCH 304");
-    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    assertEquals("Department Not Found", response.getBody());
+    response = routeController.changeCourseLocation(englUppercase, 1234, "SCH 304");
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(),
+        notFoundTestMessage);
+    assertEquals(departmentNotFound, response.getBody(),
+        bodyMatchMessage);
   }
 
   /**
    * These instances are used for testing.
    */
   private static RouteController routeController;
-  private static HashMap<String, Department> departmentsMap;
+  private static Map<String, Department> departmentsMap;
   private static Department mockDepartment;
-  private static HashMap<String, Course> coursesMap;
+  private static Map<String, Course> coursesMap;
   private static Course mockCourse;
   private ResponseEntity<String> response;
+  final String courseId = "1234";
+  final String courseNotFound = "Course Not Found";
+  final String departmentNotFound = "Department Not Found";
+  final String comsUppercase = "COMS";
+  final String comsLowerrcase = "coms";
+  final String englUppercase = "ENGL";
+  final String okTestMessage = "Response code should be OK";
+  final String notFoundTestMessage = "Response status code should be 404";
+  final String bodyMatchMessage = "Response body should match expected string";
 }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,13 +17,13 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @SpringBootTest
 @ContextConfiguration
-public class DepartmentUnitTests {
+class DepartmentUnitTests {
 
   /**
    * Set up to be run before each test.
    */
   @BeforeEach
-  public void setupDepartmentForTesting() {
+  void setupDepartmentForTesting() {
 
     testCourse = new Course("Griffin Newbold", "417 IAB", "11:40-12:55", 250);
     testCourse.setEnrolledStudentCount(249);
@@ -44,146 +45,190 @@ public class DepartmentUnitTests {
    * Test for Department class getNumberOfMajors method.
    */
   @Test
-  public void getNumberOfMajorsTest() {
+  void getNumberOfMajorsTest() {
     int expectedResult = 2700;
-    assertEquals(expectedResult, testDept.getNumberOfMajors());
+    assertEquals(expectedResult, testDept.getNumberOfMajors(),
+        "Number of Majors should be 2700");
 
     expectedResult = 0;
-    assertEquals(expectedResult, testDept2.getNumberOfMajors());
+    assertEquals(expectedResult, testDept2.getNumberOfMajors(),
+        "Number of Majors should be 0");
   }
 
   /**
    * Test for Department class getDepartmentChair method.
    */
   @Test
-  public void getDepartmentChairTest() {
+  void getDepartmentChairTest() {
     String expectedResult = "Luca Carloni";
-    assertEquals(expectedResult, testDept.getDepartmentChair());
+    assertEquals(expectedResult, testDept.getDepartmentChair(),
+        "Department Chair should be Luca Carloni");
 
     expectedResult = "";
-    assertEquals(expectedResult, testDept2.getDepartmentChair());
+    assertEquals(expectedResult, testDept2.getDepartmentChair(),
+        "Department Chair should be empty string");
   }
 
   /**
    * Test for Department class getCourseSelection method.
    */
   @Test
-  public void getCourseSelectionTest() {
-    assertEquals(coursesMap, testDept.getCourseSelection());
+  void getCourseSelectionTest() {
+    assertEquals(coursesMap, testDept.getCourseSelection(),
+        "Course selection should match courseMap");
 
-    assertNotNull(testDept2.getCourseSelection());
-    assertEquals(new HashMap<>(), testDept2.getCourseSelection());
+    assertNotNull(testDept2.getCourseSelection(), "Course selection should not be null");
+    assertEquals(new HashMap<>(), testDept2.getCourseSelection(),
+        "Course selection should be empty HashMap");
   }
 
   /**
    * Test for Department class addPersonToMajor method.
    */
   @Test
-  public void addPersonToMajorTest() {
+  void addPersonToMajorTest() {
     int expectedResult = 2701;
     testDept.addPersonToMajor();
-    assertEquals(expectedResult, testDept.getNumberOfMajors());
+    assertEquals(expectedResult, testDept.getNumberOfMajors(),
+        "Number of majors should be 2701 after adding one person to testDept");
 
     expectedResult = 1;
     testDept2.addPersonToMajor();
-    assertEquals(expectedResult, testDept2.getNumberOfMajors());
+    assertEquals(expectedResult, testDept2.getNumberOfMajors(),
+        "Number of majors should be 1 after adding one person to testDept2");
 
-    assertEquals(Integer.MAX_VALUE, testDept3.getNumberOfMajors());
+    assertEquals(Integer.MAX_VALUE, testDept3.getNumberOfMajors(),
+        "Number of majors should be Integer.MAX_VALUE before adding more people to testDept3");
     testDept3.addPersonToMajor();
     testDept3.addPersonToMajor();
-    assertEquals(Integer.MAX_VALUE, testDept3.getNumberOfMajors());
+    assertEquals(Integer.MAX_VALUE, testDept3.getNumberOfMajors(),
+        "Number of majors should remain Integer.MAX_VALUE after "
+            + "attempting to add more people to testDept3");
   }
 
   /**
    * Test for Department class dropPersonFromMajor method.
    */
   @Test
-  public void dropPersonFromMajorTest() {
+  void dropPersonFromMajorTest() {
     int expectedResult = 2699;
     testDept.dropPersonFromMajor();
-    assertEquals(expectedResult, testDept.getNumberOfMajors());
+    assertEquals(expectedResult, testDept.getNumberOfMajors(),
+        "Number of majors should be 2699 after dropping one person from testDept");
 
     expectedResult = 0;
     testDept2.dropPersonFromMajor();
-    assertEquals(expectedResult, testDept2.getNumberOfMajors());
+    assertEquals(expectedResult, testDept2.getNumberOfMajors(),
+        "Number of majors should remain 0 after dropping one person from testDept2");
     testDept3.dropPersonFromMajor();
     testDept3.dropPersonFromMajor();
-    assertEquals(expectedResult, testDept2.getNumberOfMajors());
+    assertEquals(expectedResult, testDept2.getNumberOfMajors(),
+        "Number of majors should remain 0 after dropping two person from testDept3");
   }
 
   /**
    * Test for Department class addCourse method.
    */
   @Test
-  public void addCourseTest() {
+  void addCourseTest() {
 
-    HashMap<String, Course> expectedCoursesMap = new HashMap<>();
-    expectedCoursesMap.put("1004", testCourse);
-    expectedCoursesMap.put("3134", testCourse2);
-    expectedCoursesMap.put("3157", testCourse3);
-    expectedCoursesMap.put("2323", testCourse);
+    String[] courseIds = {"1004", "3134", "3157", "2323"};
 
-    testDept.addCourse("2323", testCourse);
-    assertEquals(expectedCoursesMap, testDept.getCourseSelection());
+    Map<String, Course> expectedCoursesMap = new HashMap<>();
+    expectedCoursesMap.put(courseIds[0], testCourse);
+    expectedCoursesMap.put(courseIds[1], testCourse2);
+    expectedCoursesMap.put(courseIds[2], testCourse3);
+    expectedCoursesMap.put(courseIds[3], testCourse);
+
+    testDept.addCourse(courseIds[3], testCourse);
+    assertEquals(expectedCoursesMap, testDept.getCourseSelection(),
+        "CourseSelection should match courseMap");
 
     testDept.addCourse("3535", null);
-    assertEquals(expectedCoursesMap, testDept.getCourseSelection());
+    assertEquals(expectedCoursesMap, testDept.getCourseSelection(),
+        "CourseSelection should match courseMap when adding null course");
 
     testDept.addCourse(null, null);
-    assertEquals(expectedCoursesMap, testDept.getCourseSelection());
+    assertEquals(expectedCoursesMap, testDept.getCourseSelection(),
+        "CourseSelection should match courseMap when adding null courseID and null course");
 
-    expectedCoursesMap.replace("2323", testCourse3);
-    testDept.addCourse("2323", testCourse3);
-    assertEquals(expectedCoursesMap, testDept.getCourseSelection());
+    expectedCoursesMap.replace(courseIds[3], testCourse3);
+    testDept.addCourse(courseIds[3], testCourse3);
+    assertEquals(expectedCoursesMap, testDept.getCourseSelection(),
+        "CourseSelection should match courseMap after replace");
   }
 
   /**
    * Test for Department class createCourse method.
    */
   @Test
-  public void createCourseTest() {
-    HashMap<String, Course> expectedCoursesMap = new HashMap<>();
+  void createCourseTest() {
+    Map<String, Course> expectedCoursesMap = new HashMap<>();
+    String newCourseId = "7777";
     expectedCoursesMap.put("1004", testCourse);
     expectedCoursesMap.put("3134", testCourse2);
     expectedCoursesMap.put("3157", testCourse3);
     Course newCourse = new Course("Cool", "LER 202", "11:40-12:55", 250);
-    expectedCoursesMap.put("7777", newCourse);
+    expectedCoursesMap.put(newCourseId, newCourse);
 
-    testDept.createCourse("7777", "Cool", "LER 202", "11:40-12:55", 250);
+    testDept.createCourse(newCourseId, "Cool", "LER 202", "11:40-12:55", 250);
 
-    HashMap<String, Course> actualCoursesMap = testDept.getCourseSelection();
-    assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet());
+    Map<String, Course> actualCoursesMap = testDept.getCourseSelection();
+    assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet(),
+        "Expected and actual key sets should match");
     for (String courseId : expectedCoursesMap.keySet()) {
       Course expected = expectedCoursesMap.get(courseId);
       Course actual = actualCoursesMap.get(courseId);
-      assertTrue(expected.equals(actual));
+      assertEquals(expected.getInstructorName(), actual.getInstructorName(),
+          "Expected and actual instructor name should match");
+      assertEquals(expected.getCourseLocation(), actual.getCourseLocation(),
+          "Expected and actual course location should match");
+      assertEquals(expected.getCourseTimeSlot(), actual.getCourseTimeSlot(),
+          "Expected and actual course timeSlot should match");
+      assertEquals(expected.getEnrollmentCapacity(), actual.getEnrollmentCapacity(),
+          "Expected and actual enrollment capacity should match");
+      assertEquals(expected.getEnrolledStudentCount(), actual.getEnrolledStudentCount(),
+          "Expected and actual enrolledStudentCount should match");
+
     }
 
     testDept.createCourse(null, null, null, null, -555);
     actualCoursesMap = testDept.getCourseSelection();
-    assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet());
+    assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet(),
+        "Expected and actual key sets should match");
 
     Course newCourse2 = new Course("Unknown", "Unknown", "Unknown", 0);
-    expectedCoursesMap.replace("7777", newCourse2);
-    testDept.createCourse("7777", null, null, null, -555);
+    expectedCoursesMap.replace(newCourseId, newCourse2);
+    testDept.createCourse(newCourseId, null, null, null, -555);
     actualCoursesMap = testDept.getCourseSelection();
-    assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet());
+    assertEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet(),
+        "Expected and actual key sets should match");
     for (String courseId : expectedCoursesMap.keySet()) {
       Course expected = expectedCoursesMap.get(courseId);
       Course actual = actualCoursesMap.get(courseId);
-      assertTrue(expected.equals(actual));
+      assertEquals(expected.getInstructorName(), actual.getInstructorName(),
+          "Expected and actual instructor name should match");
+      assertEquals(expected.getCourseLocation(), actual.getCourseLocation(),
+          "Expected and actual course location should match");
+      assertEquals(expected.getCourseTimeSlot(), actual.getCourseTimeSlot(),
+          "Expected and actual course timeSlot should match");
+      assertEquals(expected.getEnrollmentCapacity(), actual.getEnrollmentCapacity(),
+          "Expected and actual enrollment capacity should match");
+      assertEquals(expected.getEnrolledStudentCount(), actual.getEnrolledStudentCount(),
+          "Expected and actual enrolledStudentCount should match");
     }
 
     testDept.createCourse("77777", null, null, null, -555);
     actualCoursesMap = testDept.getCourseSelection();
-    assertNotEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet());
+    assertNotEquals(expectedCoursesMap.keySet(), actualCoursesMap.keySet(),
+        "Expected and actual key sets should not match");
   }
 
   /**
    * Test for Department class toString method.
    */
   @Test
-  public void toStringTest() {
+  void toStringTest() {
     String expectedResult = """
         COMS 1004:\s
         Instructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55
@@ -192,10 +237,12 @@ public class DepartmentUnitTests {
         COMS 3134:\s
         Instructor: Unknown; Location: ; Time: Unknown
         """;
-    assertEquals(expectedResult, testDept.toString());
+    assertEquals(expectedResult, testDept.toString(),
+        "Expected and actual string should be the same");
 
     expectedResult = "";
-    assertEquals(expectedResult, testDept2.toString());
+    assertEquals(expectedResult, testDept2.toString(),
+        "Expected and actual string should be the same");
 
     testDept2 = new Department("0.\\n3/", coursesMap, "", -3);
     expectedResult = """
@@ -206,7 +253,8 @@ public class DepartmentUnitTests {
         0.\\n3/ 3134:\s
         Instructor: Unknown; Location: ; Time: Unknown
         """;
-    assertEquals(expectedResult, testDept2.toString());
+    assertEquals(expectedResult, testDept2.toString(),
+        "Expected and actual string should be the same");
   }
 
   /**
@@ -218,5 +266,5 @@ public class DepartmentUnitTests {
   public static Department testDept;
   public static Department testDept2;
   public static Department testDept3;
-  public static HashMap<String, Course> coursesMap;
+  public static Map<String, Course> coursesMap;
 }

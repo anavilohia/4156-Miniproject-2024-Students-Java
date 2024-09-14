@@ -20,7 +20,7 @@ public class Department implements Serializable {
    * @param departmentChair The name of the department chair.
    * @param numberOfMajors  The number of majors in the department.
    */
-  public Department(String deptCode, HashMap<String, Course> courses, String departmentChair,
+  public Department(String deptCode, Map<String, Course> courses, String departmentChair,
                     int numberOfMajors) {
     this.deptCode = (deptCode != null) ? deptCode : "Unknown";
     this.courses = (courses != null) ? courses : new HashMap<>();
@@ -51,7 +51,7 @@ public class Department implements Serializable {
    *
    * @return A HashMap containing courses offered by the department.
    */
-  public HashMap<String, Course> getCourseSelection() {
+  public Map<String, Course> getCourseSelection() {
     return this.courses;
   }
 
@@ -106,6 +106,7 @@ public class Department implements Serializable {
    *
    * @return A string representing the department.
    */
+  @Override
   public String toString() {
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, Course> entry : courses.entrySet()) {
@@ -120,7 +121,7 @@ public class Department implements Serializable {
   // const and variables
   @Serial
   private static final long serialVersionUID = 234567L;
-  private final HashMap<String, Course> courses;
+  private final Map<String, Course> courses;
   private final String departmentChair;
   private final String deptCode;
   private int numberOfMajors;

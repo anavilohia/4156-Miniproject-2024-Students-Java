@@ -37,7 +37,7 @@ public class MyFileDatabase {
    *
    * @param mapping the mapping of department names to Department objects
    */
-  public void setMapping(HashMap<String, Department> mapping) {
+  public void setMapping(Map<String, Department> mapping) {
     this.departmentMapping = mapping == null ? new HashMap<>() : mapping;
   }
 
@@ -47,11 +47,11 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public final HashMap<String, Department> deSerializeObjectFromFile() {
+  public final Map<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
-      if (obj instanceof HashMap<?, ?> mapObj) {
-        HashMap<String, Department> finalDepartmentMap = new HashMap<>();
+      if (obj instanceof Map<?, ?> mapObj) {
+        Map<String, Department> finalDepartmentMap = new HashMap<>();
 
         for (Object key : mapObj.keySet()) {
           if (!(key instanceof String)) {
@@ -67,7 +67,9 @@ public class MyFileDatabase {
       }
       throw new IllegalArgumentException("Invalid object type in file.");
     } catch (IOException | ClassNotFoundException e) {
-      logger.log(Level.SEVERE, e.getMessage());
+      if (LOGGER.isLoggable(Level.SEVERE)) {
+        LOGGER.log(Level.SEVERE, e.getMessage());
+      }
       return new HashMap<>();
     }
   }
@@ -79,9 +81,13 @@ public class MyFileDatabase {
   public void saveContentsToFile() {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
       out.writeObject(departmentMapping);
-      logger.info("Object serialized successfully.");
+      if (LOGGER.isLoggable(Level.INFO)) {
+        LOGGER.info("Object serialized successfully.");
+      }
     } catch (IOException e) {
-      logger.log(Level.SEVERE, e.getMessage());
+      if (LOGGER.isLoggable(Level.SEVERE)) {
+        LOGGER.log(Level.SEVERE, e.getMessage());
+      }
     }
   }
 
@@ -90,7 +96,7 @@ public class MyFileDatabase {
    *
    * @return the department mapping
    */
-  public HashMap<String, Department> getDepartmentMapping() {
+  public Map<String, Department> getDepartmentMapping() {
     return this.departmentMapping;
   }
 
@@ -118,10 +124,10 @@ public class MyFileDatabase {
   /**
    * The mapping of department names to Department objects.
    */
-  private HashMap<String, Department> departmentMapping = new HashMap<>();
+  private Map<String, Department> departmentMapping = new HashMap<>();
 
   /**
-   * Logger to print exceptions.
+   * Logger to print information and exceptions.
    */
-  private static final Logger logger = Logger.getLogger(MyFileDatabase.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(MyFileDatabase.class.getName());
 }
