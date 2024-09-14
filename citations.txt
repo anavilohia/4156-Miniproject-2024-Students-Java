@@ -1,0 +1,31 @@
+All resources used for this assigment:
+
+- Course slides
+- Provided codebase for the assignment
+- IntelliJ autofill suggestions and tips
+- JDK and Maven support as needed from library documentation, stackOverflow search, and google search
+- PMD tool and support as needed from library documentation, stackOverflow search, and google search
+- ChatGPT to ask questions like "give example of how to add space character in textblock in java" without using any provided code in this submission
+
+Specific links heavily referenced:
+
+https://sachinsf.com/how-to-use-pmd-code-analyzer-with-intellij/
+https://stackoverflow.com/questions/45632920/why-should-one-use-objects-requirenonnull
+https://www.digitalocean.com/community/tutorials/logger-in-java-logging-example
+https://www.jetbrains.com/help/idea/finding-and-replacing-text-in-project.html
+https://stackoverflow.com/questions/5934031/set-textblock-to-preserve-white-space-at-the-beginning-and-at-the-end
+https://www.digitalocean.com/community/tutorials/install-maven-mac-os
+https://stackoverflow.com/questions/16306012/github-pull-request-showing-commits-that-are-already-in-target-branch
+https://forum.openrefine.org/t/java-import-ordering/846
+https://stackoverflow.com/questions/24355976/how-to-change-line-width-in-intellij-from-120-character
+https://stackoverflow.com/questions/6856836/should-class-members-be-sorted
+https://www.codementor.io/@noelkamphoa/how-to-generate-code-coverage-report-using-jacoco-in-a-java-application-2a3at1ts4l
+https://www.jetbrains.com/help/idea/create-tests.html
+https://codegym.cc/groups/posts/integermax_value-in-java-with-examples
+https://www.digitalocean.com/community/tutorials/logger-in-java-logging-example
+https://stackoverflow.com/questions/5817738/how-to-use-log-levels-in-java
+https://www.jetbrains.com/help/idea/finding-and-replacing-text-in-project.html
+
+
+
+
