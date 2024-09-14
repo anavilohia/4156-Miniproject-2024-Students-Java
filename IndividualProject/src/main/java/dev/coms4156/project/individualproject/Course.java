@@ -19,9 +19,9 @@ public class Course implements Serializable {
    * @param capacity       The maximum number of students that can enroll in the course.
    */
   public Course(String instructorName, String courseLocation, String timeSlot, int capacity) {
-    this.courseLocation = (courseLocation != null) ? courseLocation : "Unknown";
-    this.instructorName = (instructorName != null) ? instructorName : "Unknown";
-    this.courseTimeSlot = (timeSlot != null) ? timeSlot : "Unknown";
+    this.courseLocation = (courseLocation != null) ? courseLocation : UNKNOWN;
+    this.instructorName = (instructorName != null) ? instructorName : UNKNOWN;
+    this.courseTimeSlot = (timeSlot != null) ? timeSlot : UNKNOWN;
     this.enrollmentCapacity = Math.max(capacity, 0);
     this.enrolledStudentCount = 0;
   }
@@ -184,6 +184,7 @@ public class Course implements Serializable {
   // const and variables
   @Serial
   private static final long serialVersionUID = 123456L;
+  private static final String UNKNOWN = "Unknown";
   private final int enrollmentCapacity;
   private int enrolledStudentCount;
   private String courseLocation;

@@ -1,7 +1,9 @@
 package dev.coms4156.project.individualproject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @SpringBootTest
 @ContextConfiguration
-public class CourseUnitTests {
+class CourseUnitTests {
 
   /**
    * Set up to be run before all tests.
@@ -30,12 +32,8 @@ public class CourseUnitTests {
   @Test
   public void enrollStudentTest() {
     testCourse.setEnrolledStudentCount(249);
-
-    boolean expectedResult = true;
-    assertEquals(expectedResult, testCourse.enrollStudent());
-
-    expectedResult = false;
-    assertEquals(expectedResult, testCourse.enrollStudent());
+    assertTrue(testCourse.enrollStudent());
+    assertFalse(testCourse.enrollStudent());
   }
 
   /**
@@ -44,12 +42,8 @@ public class CourseUnitTests {
   @Test
   public void dropStudentTest() {
     testCourse.setEnrolledStudentCount(1);
-
-    boolean expectedResult = true;
-    assertEquals(expectedResult, testCourse.dropStudent());
-
-    expectedResult = false;
-    assertEquals(expectedResult, testCourse.dropStudent());
+    assertTrue(testCourse.dropStudent());
+    assertFalse(testCourse.dropStudent());
   }
 
   /**
@@ -250,15 +244,14 @@ public class CourseUnitTests {
       tempCourse.enrollStudent();
     }
 
-    boolean expectedResult = false;
-    assertEquals(expectedResult, tempCourse.isCourseFull());
+    assertFalse(tempCourse.isCourseFull());
 
-    expectedResult = true;
     tempCourse.enrollStudent();
     tempCourse.enrollStudent();
-    assertEquals(expectedResult, tempCourse.isCourseFull());
+    assertTrue(tempCourse.isCourseFull());
+
     tempCourse.enrollStudent();
-    assertEquals(expectedResult, tempCourse.isCourseFull());
+    assertTrue(tempCourse.isCourseFull());
 
     tempCourse = new Course(
         "Griffin Newbold",
@@ -266,7 +259,7 @@ public class CourseUnitTests {
         "11:40-12:55",
         -4);
 
-    assertEquals(expectedResult, tempCourse.isCourseFull());
+    assertTrue(tempCourse.isCourseFull());
 
     tempCourse = new Course(
         "Griffin Newbold",
@@ -274,7 +267,7 @@ public class CourseUnitTests {
         "11:40-12:55",
         0);
 
-    assertEquals(expectedResult, tempCourse.isCourseFull());
+    assertTrue(tempCourse.isCourseFull());
   }
 
   /**

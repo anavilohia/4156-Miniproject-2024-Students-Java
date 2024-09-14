@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class represents a file-based database containing department mappings.
@@ -36,11 +38,7 @@ public class MyFileDatabase {
    * @param mapping the mapping of department names to Department objects
    */
   public void setMapping(HashMap<String, Department> mapping) {
-    if (mapping == null) {
-      this.departmentMapping = new HashMap<>();
-    } else {
-      this.departmentMapping = mapping;
-    }
+    this.departmentMapping = mapping == null ? new HashMap<>() : mapping;
   }
 
   /**
@@ -49,17 +47,28 @@ public class MyFileDatabase {
    *
    * @return the deserialized department mapping
    */
-  public HashMap<String, Department> deSerializeObjectFromFile() {
+  public final HashMap<String, Department> deSerializeObjectFromFile() {
     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
       Object obj = in.readObject();
-      if (obj instanceof HashMap) {
-        return (HashMap<String, Department>) obj;
-      } else {
-        throw new IllegalArgumentException("Invalid object type in file.");
+      if (obj instanceof HashMap<?, ?> mapObj) {
+        HashMap<String, Department> finalDepartmentMap = new HashMap<>();
+
+        for (Object key : mapObj.keySet()) {
+          if (!(key instanceof String)) {
+            throw new IllegalArgumentException("Invalid object type in file.");
+          }
+          Object value = mapObj.get(key);
+          if (!(value instanceof Department)) {
+            throw new IllegalArgumentException("Invalid object type in file.");
+          }
+          finalDepartmentMap.put((String) key, (Department) value);
+        }
+        return finalDepartmentMap;
       }
+      throw new IllegalArgumentException("Invalid object type in file.");
     } catch (IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-      return null;
+      logger.log(Level.SEVERE, e.getMessage());
+      return new HashMap<>();
     }
   }
 
@@ -70,9 +79,9 @@ public class MyFileDatabase {
   public void saveContentsToFile() {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
       out.writeObject(departmentMapping);
-      System.out.println("Object serialized successfully.");
+      logger.info("Object serialized successfully.");
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.log(Level.SEVERE, e.getMessage());
     }
   }
 
@@ -104,10 +113,15 @@ public class MyFileDatabase {
   /**
    * The path to the file containing the database entries.
    */
-  private String filePath;
+  private final String filePath;
 
   /**
    * The mapping of department names to Department objects.
    */
   private HashMap<String, Department> departmentMapping = new HashMap<>();
+
+  /**
+   * Logger to print exceptions.
+   */
+  private static final Logger logger = Logger.getLogger(MyFileDatabase.class.getName());
 }

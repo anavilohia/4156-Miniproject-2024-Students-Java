@@ -25,7 +25,7 @@ class RouteControllerTest {
   public void setUpRouteControllerForTesting() {
     routeController = new RouteController();
 
-    mockFileDatabase = mock(MyFileDatabase.class);
+    MyFileDatabase mockFileDatabase = mock(MyFileDatabase.class);
     IndividualProjectApplication.overrideDatabase(mockFileDatabase);
 
     mockDepartment = mock(Department.class);
@@ -276,7 +276,6 @@ class RouteControllerTest {
    * These instances are used for testing.
    */
   private static RouteController routeController;
-  private static MyFileDatabase mockFileDatabase;
   private static HashMap<String, Department> departmentsMap;
   private static Department mockDepartment;
   private static HashMap<String, Course> coursesMap;

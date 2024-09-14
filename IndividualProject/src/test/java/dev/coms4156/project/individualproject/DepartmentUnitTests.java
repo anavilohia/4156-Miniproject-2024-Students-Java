@@ -3,7 +3,6 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -185,20 +184,28 @@ public class DepartmentUnitTests {
    */
   @Test
   public void toStringTest() {
-    String expectedResult =
-        "COMS 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
-            + "COMS 3157: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n"
-            + "COMS 3134: \nInstructor: Unknown; Location: ; Time: Unknown\n";
+    String expectedResult = """
+        COMS 1004:\s
+        Instructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55
+        COMS 3157:\s
+        Instructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm
+        COMS 3134:\s
+        Instructor: Unknown; Location: ; Time: Unknown
+        """;
     assertEquals(expectedResult, testDept.toString());
 
     expectedResult = "";
     assertEquals(expectedResult, testDept2.toString());
 
     testDept2 = new Department("0.\\n3/", coursesMap, "", -3);
-    expectedResult =
-        "0.\\n3/ 1004: \nInstructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55\n"
-            + "0.\\n3/ 3157: \nInstructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm\n"
-            + "0.\\n3/ 3134: \nInstructor: Unknown; Location: ; Time: Unknown\n";
+    expectedResult = """
+        0.\\n3/ 1004:\s
+        Instructor: Griffin Newbold; Location: 417 IAB; Time: 11:40-12:55
+        0.\\n3/ 3157:\s
+        Instructor: Prof. K; Location: Mudd 343; Time: 1 to 4 pm
+        0.\\n3/ 3134:\s
+        Instructor: Unknown; Location: ; Time: Unknown
+        """;
     assertEquals(expectedResult, testDept2.toString());
   }
 

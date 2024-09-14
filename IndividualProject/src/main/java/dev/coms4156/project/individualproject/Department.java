@@ -26,7 +26,6 @@ public class Department implements Serializable {
     this.courses = (courses != null) ? courses : new HashMap<>();
     this.departmentChair = (departmentChair != null) ? departmentChair : "Unknown";
     this.numberOfMajors = Math.max(numberOfMajors, 0);
-    ;
   }
 
   /**
@@ -121,8 +120,8 @@ public class Department implements Serializable {
   // const and variables
   @Serial
   private static final long serialVersionUID = 234567L;
-  private HashMap<String, Course> courses;
-  private String departmentChair;
-  private String deptCode;
+  private final HashMap<String, Course> courses;
+  private final String departmentChair;
+  private final String deptCode;
   private int numberOfMajors;
 }

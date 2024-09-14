@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class IndividualProjectApplication implements CommandLineRunner {
 
   /**
-   * The main launcher for the service all it does
+   * The main launcher for the services all it does
    * is make a call to the overridden run method.
    *
    * @param args A {@code String[]} of any potential
@@ -62,10 +62,35 @@ public class IndividualProjectApplication implements CommandLineRunner {
    * Allows for data to be reset in event of errors.
    */
   public void resetDataFile() {
-    final String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
-    final String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
 
-    // Data for CHEM department courses.
+    // create Department objects using course data
+    Department chem = new Department("CHEM", getChemCourses(), "Laura J. Kaufman", 250);
+    Department coms = new Department("COMS", getComsCourses(), "Luca Carloni", 2700);
+    Department econ = new Department("ECON", getEconCourses(), "Michael Woodford", 2345);
+    Department elen = new Department("ELEN", getElenCourses(), "Ioannis Kymissis", 250);
+    Department ieor = new Department("IEOR", getIeorCourses(), "Jay Sethuraman", 67);
+    Department phys = new Department("PHYS", getPhysCourses(), "Dmitri N. Basov", 43);
+    Department psyc = new Department("PSYC", getPsycCourses(), "Nim Tottenham", 437);
+
+    // create hashmap and add all mappings for dept code and department object
+    HashMap<String, Department> mapping = new HashMap<>();
+    mapping.put("CHEM", chem);
+    mapping.put("COMS", coms);
+    mapping.put("ECON", econ);
+    mapping.put("ELEN", elen);
+    mapping.put("IEOR", ieor);
+    mapping.put("PHYS", phys);
+    mapping.put("PSYC", psyc);
+
+    myFileDatabase.setMapping(mapping);
+  }
+
+  /**
+   * Creates a hashmap containing CHEM courses data with courseID and Course.
+   *
+   * @return HashMap of String,Course chemCourses.
+   */
+  private HashMap<String, Course> getChemCourses() {
     HashMap<String, Course> chemCourses = new HashMap<>();
 
     Course chem1403 = new Course("Ruben M Savizky", locations[1], "6:10-7:25", 120);
@@ -100,7 +125,15 @@ public class IndividualProjectApplication implements CommandLineRunner {
     chem4102.setEnrolledStudentCount(27);
     chemCourses.put("4102", chem4102);
 
-    // Data for COMS department courses.
+    return chemCourses;
+  }
+
+  /**
+   * Creates a hashmap containing COMS courses data with courseID and Course.
+   *
+   * @return HashMap of String,Course comsCourses.
+   */
+  private HashMap<String, Course> getComsCourses() {
     HashMap<String, Course> comsCourses = new HashMap<>();
 
     Course coms1004 = new Course("Adam Cannon", locations[0], times[0], 400);
@@ -134,8 +167,15 @@ public class IndividualProjectApplication implements CommandLineRunner {
     Course coms4156 = new Course("Gail Kaiser", "501 NWC", times[2], 120);
     coms4156.setEnrolledStudentCount(109);
     comsCourses.put("4156", coms4156);
+    return comsCourses;
+  }
 
-    // Data for ECON department courses.
+  /**
+   * Creates a hashmap containing ECON courses data with courseID and Course.
+   *
+   * @return HashMap of String,Course econCourses.
+   */
+  private HashMap<String, Course> getEconCourses() {
     HashMap<String, Course> econCourses = new HashMap<>();
 
     Course econ1105 = new Course("Waseem Noor", locations[1], times[3], 210);
@@ -170,7 +210,15 @@ public class IndividualProjectApplication implements CommandLineRunner {
     econ4840.setEnrolledStudentCount(67);
     econCourses.put("4840", econ4840);
 
-    //Data for ELEN department courses.
+    return econCourses;
+  }
+
+  /**
+   * Creates a hashmap containing ELEN courses data with courseID and Course.
+   *
+   * @return HashMap of String,Course elenCourses.
+   */
+  private HashMap<String, Course> getElenCourses() {
     HashMap<String, Course> elenCourses = new HashMap<>();
 
     Course elen1201 = new Course("David G Vallancourt", "301 PUP", times[1], 120);
@@ -205,7 +253,15 @@ public class IndividualProjectApplication implements CommandLineRunner {
     elen4830.setEnrolledStudentCount(22);
     elenCourses.put("4830", elen4830);
 
-    //Data for IEOR department courses.
+    return elenCourses;
+  }
+
+  /**
+   * Creates a hashmap containing IEOR courses data with courseID and Course.
+   *
+   * @return HashMap of String,Course ieorCourses.
+   */
+  private HashMap<String, Course> getIeorCourses() {
     HashMap<String, Course> ieorCourses = new HashMap<>();
 
     Course ieor2500 = new Course("Uday Menon", "627 MUDD", times[0], 50);
@@ -240,7 +296,15 @@ public class IndividualProjectApplication implements CommandLineRunner {
     ieor4540.setEnrolledStudentCount(33);
     ieorCourses.put("4540", ieor4540);
 
-    //Data for PHYS department courses.
+    return ieorCourses;
+  }
+
+  /**
+   * Creates a hashmap containing PHYS courses data with courseID and Course.
+   *
+   * @return HashMap of String,Course physCourses.
+   */
+  private HashMap<String, Course> getPhysCourses() {
     HashMap<String, Course> physCourses = new HashMap<>();
 
     Course phys1001 = new Course("Szabolcs Marka", "301 PUP", times[3], 150);
@@ -275,7 +339,15 @@ public class IndividualProjectApplication implements CommandLineRunner {
     phys4040.setEnrolledStudentCount(31);
     physCourses.put("4040", phys4040);
 
-    // Data for PSYC department courses.
+    return physCourses;
+  }
+
+  /**
+   * Creates a hashmap containing PSYC courses data with courseID and Course.
+   *
+   * @return HashMap of String,Course PsycCourses.
+   */
+  private HashMap<String, Course> getPsycCourses() {
     HashMap<String, Course> psycCourses = new HashMap<>();
 
     Course psyc1001 = new Course("Patricia G Lindemann", "501 SCH", "1:10-2:25", 200);
@@ -310,26 +382,7 @@ public class IndividualProjectApplication implements CommandLineRunner {
     psyc4493.setEnrolledStudentCount(9);
     psycCourses.put("4493", psyc4493);
 
-    // create Department objects using course data
-    Department chem = new Department("CHEM", chemCourses, "Laura J. Kaufman", 250);
-    Department coms = new Department("COMS", comsCourses, "Luca Carloni", 2700);
-    Department econ = new Department("ECON", econCourses, "Michael Woodford", 2345);
-    Department elen = new Department("ELEN", elenCourses, "Ioannis Kymissis", 250);
-    Department ieor = new Department("IEOR", ieorCourses, "Jay Sethuraman", 67);
-    Department phys = new Department("PHYS", physCourses, "Dmitri N. Basov", 43);
-    Department psyc = new Department("PSYC", psycCourses, "Nim Tottenham", 437);
-
-    // create hashmap and add all mappings for dept code and department object
-    HashMap<String, Department> mapping = new HashMap<>();
-    mapping.put("CHEM", chem);
-    mapping.put("COMS", coms);
-    mapping.put("ECON", econ);
-    mapping.put("ELEN", elen);
-    mapping.put("IEOR", ieor);
-    mapping.put("PHYS", phys);
-    mapping.put("PSYC", psyc);
-
-    myFileDatabase.setMapping(mapping);
+    return psycCourses;
   }
 
   /**
@@ -348,4 +401,6 @@ public class IndividualProjectApplication implements CommandLineRunner {
   //Database Instance
   public static MyFileDatabase myFileDatabase;
   private static boolean saveData = true;
+  final String[] times = {"11:40-12:55", "4:10-5:25", "10:10-11:25", "2:40-3:55"};
+  final String[] locations = {"417 IAB", "309 HAV", "301 URIS"};
 }
